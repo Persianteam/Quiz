@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 20px;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+    <script>
+        const questions = [{"question": "Who is credited with developing the first 'finger-powered calculator' known as the Abacus?", "options": ["Chinese mathematicians", "Babylonians", "Egyptians", "Romans"], "answer": "Babylonians"}, {"question": "What is the primary use of the Von Neumann Architecture?", "options": ["Encryption", "Data compression", "Stored-program computers", "Mechanical computation"], "answer": "Stored-program computers"}, {"question": "What was the role of Alan Turing during World War II?", "options": ["Inventing the abacus", "Breaking the Enigma code", "Creating the first compiler", "Designing vacuum tubes"], "answer": "Breaking the Enigma code"}, {"question": "Which was the first general-purpose microprocessor?", "options": ["Intel 4004", "IBM System/360", "Altair 8800", "Apple I"], "answer": "Intel 4004"}, {"question": "What innovation made the IBM System/360 (1964) significant?", "options": ["Punch cards", "Standardized architecture", "GUI introduction", "Magnetic tape storage"], "answer": "Standardized architecture"}, {"question": "What does 'GUI' stand for?", "options": ["Graphical User Interface", "General Utility Index", "Global Unified Interface", "Graphical Unit Integration"], "answer": "Graphical User Interface"}, {"question": "Which theorem is crucial for digital data sampling?", "options": ["Pythagoras' Theorem", "Nyquist\u2013Shannon Theorem", "Moore's Law", "Boole's Law"], "answer": "Nyquist\u2013Shannon Theorem"}, {"question": "Which compression method is lossy?", "options": ["FLAC", "PNG", "MP3", "ZIP"], "answer": "MP3"}, {"question": "What does 'ASCII' stand for?", "options": ["American Standard Code for Information Interchange", "Advanced Systematic Code for International Integration", "Applied Symbolic Code for Interfacing", "American Symbolic Code Integration Index"], "answer": "American Standard Code for Information Interchange"}, {"question": "Which format is used for lossy video compression?", "options": ["HuffYUV", "H.264", "FLAC", "PNG"], "answer": "H.264"}, {"question": "What is the smallest unit of digital data?", "options": ["Byte", "Bit", "Kilobyte", "Nibble"], "answer": "Bit"}, {"question": "Which logical gate outputs '1' only if all inputs are '0'?", "options": ["AND Gate", "OR Gate", "NOR Gate", "XOR Gate"], "answer": "NOR Gate"}, {"question": "What innovation did Claude Shannon contribute to digital computing?", "options": ["Boolean algebra", "Digital circuit theory", "Graphical User Interfaces", "Vacuum tubes"], "answer": "Digital circuit theory"}, {"question": "Who proposed the concept of the Turing Test?", "options": ["George Boole", "Claude Shannon", "Grace Hopper", "Alan Turing"], "answer": "Alan Turing"}, {"question": "What is the key difference between analog and digital data?", "options": ["Analog is discrete; digital is continuous", "Analog degrades permanently; digital can regenerate", "Analog uses bits; digital uses waveforms", "Digital has infinite precision"], "answer": "Analog degrades permanently; digital can regenerate"}, {"question": "What does 'RGB' represent in digital media?", "options": ["Raster, Gradient, Blur", "Range, Gain, Brightness", "Red, Green, Blue", "Resolution, Gamma, Black"], "answer": "Red, Green, Blue"}, {"question": "What is the function of a CPU's Arithmetic Logic Unit (ALU)?", "options": ["Stores data", "Performs calculations", "Manages peripherals", "Executes graphics"], "answer": "Performs calculations"}, {"question": "What kind of storage device uses magnetic platters?", "options": ["HDD", "SSD", "USB drive", "SD card"], "answer": "HDD"}, {"question": "What feature allows page numbers to be added in Microsoft Word?", "options": ["Insert Tab", "References Tab", "Home Tab", "View Tab"], "answer": "Insert Tab"}, {"question": "What is a significant advantage of transistors over vacuum tubes?", "options": ["Cheaper", "Larger", "Less durable", "Less efficient"], "answer": "Cheaper"}, {"question": "What process converts analog signals into digital data?", "options": ["Quantization", "Compression", "Sampling", "Amplification"], "answer": "Sampling"}, {"question": "Which component is considered the 'brain' of the computer?", "options": ["CPU", "RAM", "Motherboard", "GPU"], "answer": "CPU"}, {"question": "Which Excel function is used to count cells based on a condition?", "options": ["SUM", "AVERAGE", "COUNTIF", "IF"], "answer": "COUNTIF"}, {"question": "Which browser is credited as the first graphical web browser?", "options": ["Mosaic", "Netscape Navigator", "Internet Explorer", "Google Chrome"], "answer": "Mosaic"}, {"question": "What is the function of the Fetch-Decode-Execute cycle in computing?", "options": ["Compiles code", "Executes instructions", "Stores data", "Formats memory"], "answer": "Executes instructions"}, {"question": "What innovation did Grace Hopper contribute to programming?", "options": ["Developing a compiler", "Introducing the Turing Test", "Designing the Jacquard Loom", "Creating vacuum tubes"], "answer": "Developing a compiler"}, {"question": "What is the purpose of a Gantt chart in process scheduling?", "options": ["Visualize CPU usage", "Optimize memory allocation", "Track execution order", "Measure storage efficiency"], "answer": "Track execution order"}, {"question": "What is an advantage of Unicode over ASCII?", "options": ["Faster encoding", "Smaller file size", "Supports more characters", "Requires fewer bits"], "answer": "Supports more characters"}, {"question": "Which computer is considered the first general-purpose digital computer?", "options": ["ENIAC", "Apple I", "Altair 8800", "IBM System/360"], "answer": "ENIAC"}, {"question": "What feature in Word automatically updates when headings are changed?", "options": ["Table of Contents", "Page Numbers", "Hyperlinks", "Headers"], "answer": "Table of Contents"}];
+        let currentQuestion = 0;
+
+        function loadQuestion() {
+            const questionContainer = document.getElementById("question-container");
+            const questionText = document.getElementById("question-text");
+            const options = document.getElementById("options");
+
+            if (currentQuestion < questions.length) {
+                const question = questions[currentQuestion];
+                questionText.textContent = question.question;
+                options.innerHTML = "";
+                question.options.forEach(option => {
+                    const button = document.createElement("button");
+                    button.textContent = option;
+                    button.onclick = () => checkAnswer(option);
+                    options.appendChild(button);
+                });
+                questionContainer.style.display = "block";
+            } else {
+                questionContainer.style.display = "none";
+                document.getElementById("end-message").textContent = "You've completed the quiz!";
+            }
+        }
+
+        function checkAnswer(selected) {
+            const message = document.getElementById("message");
+            const correctAnswer = questions[currentQuestion].answer;
+            if (selected === correctAnswer) {
+                message.textContent = "Have a good nice!";
+                message.style.color = "green";
+                setTimeout(() => {
+                    message.textContent = "";
+                    currentQuestion++;
+                    loadQuestion();
+                }, 1000);
+            } else {
+                message.textContent = "Wrong!";
+                message.style.color = "red";
+            }
+        }
+
+        window.onload = () => loadQuestion();
+    </script>
+</head>
+<body>
+    <h1>Interactive Quiz</h1>
+    <p>Made by ChatGPT and Amoo Mehrun!</p>
+    <div class="quiz-container" id="question-container">
+        <h2 id="question-text"></h2>
+        <div id="options"></div>
+    </div>
+    <p id="message" class="message"></p>
+    <h2 id="end-message"></h2>
+</body>
+</html>
